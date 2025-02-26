@@ -1,4 +1,7 @@
 package org.example;
+
+import org.example.Calculator;
+
 import java.util.Scanner;
 
 public class Multithread {
@@ -20,6 +23,13 @@ public class Multithread {
         // Thread 2 - First calculator thread
         Thread calc1 = new Thread(() -> {
             System.out.println("Calculator thread 1 waiting for input...");
+            while (!calculator.isInputComplete()) {
+                try {
+                    Thread.sleep(100); // Sleep for 100ms before checking again
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
             int sum = calculator.calculateSum();
             System.out.println("Calculator thread 1 result: " + sum);
         });
@@ -27,6 +37,13 @@ public class Multithread {
         // Thread 3 - Second calculator thread
         Thread calc2 = new Thread(() -> {
             System.out.println("Calculator thread 2 waiting for input...");
+            while (!calculator.isInputComplete()) {
+                try {
+                    Thread.sleep(100); // Sleep for 100ms before checking again
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
             int sum = calculator.calculateSum();
             System.out.println("Calculator thread 2 result: " + sum);
         });
